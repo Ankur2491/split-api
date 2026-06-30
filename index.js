@@ -108,6 +108,16 @@ app.delete('/delete/expense', async (req, res)=> {
     res.send({ message: 'Expense deleted successfully!' });
 })
 
+app.delete('/delete/group', async(req, res) => {
+    const groupId = req.query.groupId;
+    await client.connect();
+    const db = client.db("divide_and_pay");
+    const collection = db.collection('expense_group');
+    await collection.deleteOne({_id: groupId});
+    await client.close();
+    res.send({message: 'Group deleted successfully!'})
+})
+
 app.get('/getGroupData', async (req, res) => {
     const groupId = req.query.groupId;
     await client.connect();
